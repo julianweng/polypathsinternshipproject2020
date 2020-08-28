@@ -59,16 +59,18 @@ function backend(){
       <form  noValidate autoComplete="off">
     <TextField id="path" label="Path" variant="filled" />
     </form>
-      <Button variant="contained" onClick={banana}>Enter</Button>
+      <Button variant="contained" onClick={() => banana('GET')}>Get</Button>
+      <Button variant="contained" onClick={() => banana('POST')}>Post</Button>
+      <Button variant="contained" onClick={() => banana('PUT')}>Put</Button>
+      <Button variant="contained" onClick={() => banana('DELETE')}>Delete</Button>
+      <Button variant="contained" onClick={() => apple()}>Biggest File</Button>
       <div id="banan">
 
       </div>
     </div>
   )
 }
-
-function banana(){
-  console.log('haha')
+function banana(re){
   var xhr = new XMLHttpRequest()
   var route = document.getElementById('path').value
   // get a callback when the server responds
@@ -79,10 +81,22 @@ function banana(){
     )
   })
   // open the request with the verb and the url
-  
-  xhr.open('GET', 'http://localhost:4000/'+route)
+    xhr.open(re, 'http://localhost:4000/file/'+route)
+  // send the request
+  xhr.send()
+}
+function apple(){
+  var xhr = new XMLHttpRequest()
+  // get a callback when the server responds
+  xhr.addEventListener('load', () => {
+    // update the state of the component with the result here
+    ReactDOM.render(
+      <h1>{xhr.responseText}</h1>,document.getElementById('banan')
+    )
+  })
+  // open the request with the verb and the url
+    xhr.open("GET", 'http://localhost:4000/biggest/')
   // send the request
   xhr.send()
 }
 export default App;
-
